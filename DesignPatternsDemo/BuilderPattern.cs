@@ -154,6 +154,44 @@ namespace DesignPatternsDemo
         }
     }
 
+    public class FluentEmployee
+    {
+        public string FullName{get;set;}
+        public DateTime DateofBirth{get;set;}
+        public string Department{get;set;}
+        public string Address{get;set;}
+    }
+    public class EmployeeFluentBuilder
+    {
+        FluentEmployee employee=new FluentEmployee();
+        public EmployeeFluentBuilder NameOfEmployee(string name)
+        {
+            employee.FullName=name;
+            return this;
+        }
+        public EmployeeFluentBuilder DOBOfEmployee(DateTime dob)
+        {
+            employee.DateofBirth=dob;
+            return this;
+        }
+        public EmployeeFluentBuilder DepartmentOfEmployee(string dept)
+        {
+            employee.Department=dept;
+            return this;
+        }
+        public EmployeeFluentBuilder AddressofEmployee(string address)
+        {
+            employee.Address=address;
+            return this;
+        }
+
+        public override string ToString()
+        {
+            return $"Here are following details of requested employee   Name:{employee.FullName}   DOB:{ employee.DateofBirth}  Department:{employee.Department} Address:{ employee.Address}";
+        }
+
+    }
+
 }
 
 
