@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace DesignPatternsDemo
 {
@@ -7,9 +8,41 @@ namespace DesignPatternsDemo
     {
         private static void Main(string[] args)
         {
-            EmployeeFluentBuilder employee=new EmployeeFluentBuilder();
-            employee.NameOfEmployee("Jack").DOBOfEmployee(new DateTime(2001,01,01)).AddressofEmployee("127,LA").DepartmentOfEmployee("Research");
-            Console.WriteLine(employee);
+
+            var messi = new PlayerData {PlayerNumber=10,PlayerName="MESSI",Position=PlayPosition.ATTACK};
+            var copier = new PlayerDataCopier();
+            var ramos = copier.DeepCopy<PlayerData>(messi);
+            ramos.PlayerName = "RAMOS";
+            ramos.PlayerNumber = 4;
+            ramos.Position = PlayPosition.DEFENCE;
+            Console.WriteLine($"\n Player Number:{messi.PlayerNumber} \t Player Name:{messi.PlayerName} \t Position:{messi.Position}");
+            Console.WriteLine($"\n Player Number:{ramos.PlayerNumber} \t Player Name:{ramos.PlayerName} \t Position:{ramos.Position}");
+            // var choclate = new IceCreamMaker();
+            //
+            // Console.WriteLine(choclate.Functionality());
+            //
+            //
+            // InfyBAL infyBAL = new InfyBAL(new InfyDAL());
+            // var employeeList = infyBAL.GetEmployeeList();
+            // foreach (var employee in employeeList)
+            //   {
+            //       Console.WriteLine($"\n Employee ID:{employee.ID} \t Employee Name:{employee.Name} \t Employee Department:{employee.Department}");
+            //    }
+            // Console.ReadKey();
+
+            #region Comments
+
+            /* used code
+             *
+             *   var choclate = new IceCreamMaker();
+
+            Console.WriteLine(choclate.Functionality());
+             * var car = new CarBuilderFacade().Address.AtAddress("135 LA").AtCity("LOS ANGELES").Parts.WithColor("YELLOW").WithType("4T").Build();
+            Console.WriteLine(car);
+             var employee = new EmployeeDesignationBuilder();
+            //EmployeeFluentBuilder employee=new EmployeeFluentBuilder();
+            //employee.NameOfEmployee("Jack").DOBOfEmployee(new DateTime(2001,01,01)).AddressofEmployee("127,LA").DepartmentOfEmployee("Research");
+            //Console.WriteLine(employee);
 
             //var carDetails = new Car();
             //carDetails.CarId = 1;
@@ -51,6 +84,9 @@ namespace DesignPatternsDemo
             //    //var calculator = new SalaryCalculator(devReports);
             //    Console.WriteLine($"Sum of all the developer salaries is {calculator.CalculateTotalSalaries()} dollars");
             //}
+            */
+
+            #endregion Comments
         }
 
         public class Sample

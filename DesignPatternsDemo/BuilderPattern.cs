@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace DesignPatternsDemo
 {
@@ -35,7 +36,6 @@ namespace DesignPatternsDemo
 
     /// <summary>
     /// Builder
-    /// </summary>
     public interface IVehicleBuilder
     {
         void SetModel();
@@ -51,13 +51,13 @@ namespace DesignPatternsDemo
         Vehicle GetVehicle();
     }
 
-
     /// <summary>
     /// ConcreteBuilder
     /// </summary>
     public class HeroBuilder : IVehicleBuilder
     {
-        Vehicle vehicle = new Vehicle();
+        private Vehicle vehicle = new Vehicle();
+
         public void SetAcessories()
         {
             vehicle.Accessories.Add("Seat Cover");
@@ -89,12 +89,14 @@ namespace DesignPatternsDemo
             return vehicle;
         }
     }
+
     /// <summary>
     /// ConcreteBuilder
     /// </summary>
     public class HondaBuilder : IVehicleBuilder
     {
-        Vehicle objVehicle = new Vehicle();
+        private Vehicle objVehicle = new Vehicle();
+
         public void SetModel()
         {
             objVehicle.Model = "Honda";
@@ -134,10 +136,12 @@ namespace DesignPatternsDemo
     public class VehicleCreator
     {
         private IVehicleBuilder vehicleBuilder;
+
         public VehicleCreator(IVehicleBuilder vehicleObjBuilder)
         {
             vehicleBuilder = vehicleObjBuilder;
         }
+
         public void CreateVehicle()
         {
             vehicleBuilder.SetBody();
@@ -145,7 +149,6 @@ namespace DesignPatternsDemo
             vehicleBuilder.SetEngine();
             vehicleBuilder.SetModel();
             vehicleBuilder.SetTransmission();
-               
         }
 
         public Vehicle GetVehicle()
@@ -156,32 +159,37 @@ namespace DesignPatternsDemo
 
     public class FluentEmployee
     {
-        public string FullName{get;set;}
-        public DateTime DateofBirth{get;set;}
-        public string Department{get;set;}
-        public string Address{get;set;}
+        public string FullName { get; set; }
+        public DateTime DateofBirth { get; set; }
+        public string Department { get; set; }
+        public string Address { get; set; }
     }
+
     public class EmployeeFluentBuilder
     {
-        FluentEmployee employee=new FluentEmployee();
+        private FluentEmployee employee = new FluentEmployee();
+
         public EmployeeFluentBuilder NameOfEmployee(string name)
         {
-            employee.FullName=name;
+            employee.FullName = name;
             return this;
         }
+
         public EmployeeFluentBuilder DOBOfEmployee(DateTime dob)
         {
-            employee.DateofBirth=dob;
+            employee.DateofBirth = dob;
             return this;
         }
+
         public EmployeeFluentBuilder DepartmentOfEmployee(string dept)
         {
-            employee.Department=dept;
+            employee.Department = dept;
             return this;
         }
+
         public EmployeeFluentBuilder AddressofEmployee(string address)
         {
-            employee.Address=address;
+            employee.Address = address;
             return this;
         }
 
@@ -189,10 +197,157 @@ namespace DesignPatternsDemo
         {
             return $"Here are following details of requested employee   Name:{employee.FullName}   DOB:{ employee.DateofBirth}  Department:{employee.Department} Address:{ employee.Address}";
         }
-
     }
 
+    public class EmployeeNormal
+    {
+        public string Name { get; set; }
+        public string Designation { get; set; }
+        public double Salary { get; set; }
+
+        public override string ToString()
+        {
+            return $"Name: {Name} , Position :{Designation},Salary{Salary}";
+        }
+    }
+
+    public class EmployeeBuilder
+    {
+        protected EmployeeNormal employee = new EmployeeNormal();
+
+        public EmployeeBuilder SetName(string Name)
+        {
+            employee.Name = Name;
+            return this;
+        }
+    }
+
+    public class EmployeeDesignationBuilder : EmployeeBuilder
+    {
+        public EmployeeDesignationBuilder SetDesignation(string designation)
+        {
+            employee.Designation = designation;
+            return this;
+        }
+    }
+
+    public class MyCar
+    {
+        public string Type { get; set; }
+        public string Color { get; set; }
+        public int NumberOfDoors { get; set; }
+
+        public string City { get; set; }
+        public string Address { get; set; }
+
+        public override string ToString()
+        {
+            return $"CarType: {Type}, Color: {Color}, Number of doors: {NumberOfDoors}, Manufactured in {City}, at address: {Address}";
+        }
+    }
+
+    public class CarBuilderFacade
+    {
+        protected MyCar CarObj;
+
+        public CarBuilderFacade()
+        {
+            CarObj = new MyCar();
+        }
+
+        public MyCar Build() => CarObj;
+
+        public CarPartsBuilder Parts => new CarPartsBuilder(CarObj);
+        public CarAddressBuilder Address => new CarAddressBuilder(CarObj);
+    }
+
+    public class CarPartsBuilder : CarBuilderFacade
+    {
+        public CarPartsBuilder(MyCar car)
+        {
+            CarObj = car;
+        }
+
+        public CarPartsBuilder WithType(string type)
+        {
+            CarObj.Type = type;
+            return this;
+        }
+
+        public CarPartsBuilder WithColor(string color)
+        {
+            CarObj.Color = color;
+            return this;
+        }
+    }
+
+    public class CarAddressBuilder : CarBuilderFacade
+    {
+        public CarAddressBuilder(MyCar car)
+        {
+            CarObj = car;
+        }
+
+        public CarAddressBuilder AtAddress(string address)
+        {
+            CarObj.Address = address;
+            return this;
+        }
+
+        public CarAddressBuilder AtCity(string city)
+        {
+            CarObj.City = city;
+            return this;
+        }
+    }
+
+    public interface IIceCream
+    {
+        string Functionality();
+    }
+
+    public class ChoclateIceCream : IIceCream
+    {
+        public string Functionality()
+        {
+            return ("Here is your choclate IceCream!! Enjoy :)");
+        }
+    }
+
+    public class VanillaIceCream : IIceCream
+    {
+        public string Functionality()
+        {
+            return ("Here is your vanilla IceCream!! Enjoy :)");
+        }
+    }
+
+    public class ButterScotchIceCream : IIceCream
+
+    {
+        public string Functionality()
+        {
+            return ("Here is your ButterScotch IceCream!! Enjoy :)");
+        }
+    }
+
+    public class IceCreamMaker
+    {
+       //public static IIceCream GetFlavour(int flavour)
+       //{
+       //    switch (flavour)
+       //    {
+       //        case 1:new ChoclateIceCream();
+       //            break;
+       //        case 2:
+       //            new VanillaIceCream();
+       //            break;
+       //        case 3:
+       //            new ButterScotchIceCream();
+       //            break;
+       //        default:new ChoclateIceCream();
+       //            break;
+       //    }
+       //}
+    }
 }
-
-
-
