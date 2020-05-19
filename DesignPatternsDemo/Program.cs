@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
+using static DesignPatternsDemo.XMLConverter;
 
 namespace DesignPatternsDemo
 {
@@ -9,14 +9,16 @@ namespace DesignPatternsDemo
         private static void Main(string[] args)
         {
 
-            var messi = new PlayerData {PlayerNumber=10,PlayerName="MESSI",Position=PlayPosition.ATTACK};
-            var copier = new PlayerDataCopier();
-            var ramos = copier.DeepCopy<PlayerData>(messi);
-            ramos.PlayerName = "RAMOS";
-            ramos.PlayerNumber = 4;
-            ramos.Position = PlayPosition.DEFENCE;
-            Console.WriteLine($"\n Player Number:{messi.PlayerNumber} \t Player Name:{messi.PlayerName} \t Position:{messi.Position}");
-            Console.WriteLine($"\n Player Number:{ramos.PlayerNumber} \t Player Name:{ramos.PlayerName} \t Position:{ramos.Position}");
+            LGRemoteControl lGRemoteControl = new LGRemoteControl(new LgTV());
+            lGRemoteControl.SwitchOn();
+            lGRemoteControl.SetChannel(201);
+            lGRemoteControl.SwitchOff();
+
+            SamsungRemoteControl samsungRemoteControl = new SamsungRemoteControl(new SamsungLEDTV());
+            samsungRemoteControl.SwitchOn();
+            samsungRemoteControl.SetChannel(850);
+            samsungRemoteControl.SwitchOff();
+            //Converted and printed the objects on console
             // var choclate = new IceCreamMaker();
             //
             // Console.WriteLine(choclate.Functionality());
@@ -33,6 +35,27 @@ namespace DesignPatternsDemo
             #region Comments
 
             /* used code
+             *
+             *   var xmlConverter = new XMLConverter();
+            var adapter = new XMLToJSONParser(xmlConverter);//Passed XML data to JSONparser to parse and print the result
+            adapter.ConvertToJSON();
+             *   var ceo = new CEO();
+            ceo.Name = "James Gordan";
+            ceo.Age = 53;
+
+            var secondCEO = new CEO();
+            Console.WriteLine(secondCEO);
+             *  var cityDb = SingleTonDataContainer.Instance;
+            var cityDb2 = SingleTonDataContainer.Instance;
+             *  var messi = new PlayerData {PlayerNumber=10,PlayerName="MESSI",Position=PlayPosition.ATTACK};
+            var copier = new PlayerDataCopier();
+            var ramos = copier.DeepCopy<PlayerData>(messi);
+            ramos.PlayerName = "RAMOS";
+            ramos.PlayerNumber = 4;
+            ramos.Position = PlayPosition.DEFENCE;
+            Console.WriteLine($"\n Player Number:{messi.PlayerNumber} \t Player Name:{messi.PlayerName} \t Position:{messi.Position}");
+            Console.WriteLine($"\n Player Number:{ramos.PlayerNumber} \t Player Name:{ramos.PlayerName} \t Position:{ramos.Position}");
+
              *
              *   var choclate = new IceCreamMaker();
 
